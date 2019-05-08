@@ -79,15 +79,55 @@
 #player .area-effect .panel-effect .lyrics p.current {
   color: #fff;
 }
-#player .buttons {
+#player #footer .buttons {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
-#player .buttons svg {
+#player #footer .buttons svg {
   width: 24px;
   height: 24px;
   margin: 0 20px;
+}
+#player #footer .bar-area {
+  color: #868aaf;
+  font-size: 12px;
+  display: flex;
+  padding: 0 20px;
+  margin-top: 20px;
+  align-items: center;
+}
+#player #footer .bar-area .time-start {
+  order: 1;
+}
+#player #footer .bar-area .time-end {
+  order: 3;
+}
+#player #footer .bar-area .bar {
+  order: 2;
+  flex: 1;
+  height: 4px;
+  background: #0025f1;
+  border-radius: 2px;
+  margin: 0 10px;
+}
+#player #footer .bar-area .progress {
+  width: 30%;
+  height: 100%;
+  border-radius: 2px;
+  background: #db3baa;
+  position: relative;
+}
+#player #footer .bar-area .progress::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: -7px;
+  display: block;
+  width: 16px;
+  height: 16px;
+  background: url(/progress.798a5c76.svg) 0 0 no-repeat;
+  background-size: contain;
 }
 
 @keyframes rotate {

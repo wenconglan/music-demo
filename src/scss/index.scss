@@ -88,19 +88,62 @@ $color2-darker: darken($color2, 30%);
           }
         }
       }
-    }  
+    }
   }
-  .buttons{
-    display:flex;
-    justify-content: center;
-    margin-top: 20px;
-    svg{
-      width:24px;
-      height: 24px;
-      margin:0 20px;
+  #footer {
+    .buttons {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      svg {
+        width: 24px;
+        height: 24px;
+        margin: 0 20px;
+      }
+    }
+    .bar-area{
+      color:$color1;
+      font-size: 12px;
+      display:flex;
+      padding:0 20px;
+      margin-top: 20px;
+      align-items: center;
+      .time-start{
+        order:1;
+      }
+      .time-end{
+        order:3;
+      }
+      .bar{
+        order: 2;
+        flex:1;
+        height:4px;
+        background: $color3;
+        border-radius: 2px;
+        margin: 0 10px;
+      }
+      .progress{
+        width:30%;
+        height: 100%;
+        border-radius: 2px;
+        background: $color2;
+        position: relative;
+        &::after{
+          content: '';
+          position: absolute;
+          right:0;
+          top:-7px;
+          display:block;
+          width: 16px;
+          height: 16px;
+          background: url(../svg/progress.svg) 0 0 no-repeat;
+          background-size: contain;
+        }
+      }
     }
   }
 }
+
 @keyframes rotate {
   0% {
     transform: rotate(0);
