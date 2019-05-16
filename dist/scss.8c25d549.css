@@ -7,9 +7,11 @@
 #player {
   height: 100vh;
   background-color: #060a3d;
+  overflow: hidden;
 }
 #player .header {
   text-align: center;
+  height: 110px;
 }
 #player .header h1 {
   color: #fff;
@@ -20,13 +22,13 @@
   color: #868aaf;
   font-size: 12px;
 }
-#player .area-effect .balls {
+#player .header .balls {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
 }
-#player .area-effect .balls span {
+#player .header .balls span {
   display: inline-block;
   width: 5px;
   height: 5px;
@@ -34,55 +36,95 @@
   background-color: #6a134f;
   margin: 0 4px;
 }
-#player .area-effect .balls span.current {
+#player .header .balls span.current {
   width: 8px;
   height: 8px;
   background: #db3baa;
 }
-#player .area-effect .panel-effect .effect {
+#player .panels {
+  height: calc(100vh - 270px);
+  width: 200vw;
+  display: flex;
+  align-items: center;
+  transition: transform 0.5s;
+}
+#player .panels.panel1 {
+  transform: translateX(0);
+}
+#player .panels.panel2 {
+  transform: translateX(-100vw);
+}
+#player .panels .panel-effect {
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#player .panels .panel-effect .effect {
   position: relative;
-  height: 60vh;
+  height: 40vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-#player .area-effect .panel-effect .effect > div {
+#player .panels .panel-effect .effect > div {
   background-size: contain;
   position: absolute;
 }
-#player .area-effect .panel-effect .effect .effect-1 {
+#player .panels .panel-effect .effect .effect-1 {
   background: url(/effect-no-move.e6a51026.svg) 0 0 no-repeat;
   width: 70vw;
   height: 70vw;
   animation: rotate 20s linear infinite;
 }
-#player .area-effect .panel-effect .effect .effect-2 {
+#player .panels .panel-effect .effect .effect-2 {
   background: url(/effect-move1.8d0ce205.svg) 0 0 no-repeat;
   width: 60vw;
   height: 60vw;
   animation: rotate 10s linear infinite reverse;
 }
-#player .area-effect .panel-effect .effect .effect-3 {
+#player .panels .panel-effect .effect .effect-3 {
   background: url(/effect-move2.143040a0.svg) 0 0 no-repeat;
   width: 26vw;
   height: 26vw;
   animation: rotate 10s linear infinite;
 }
-#player .area-effect .panel-effect .lyrics {
+#player .panels .panel-effect .lyrics {
   text-align: center;
 }
-#player .area-effect .panel-effect .lyrics p {
+#player .panels .panel-effect .lyrics p {
   font-size: 13px;
   color: #868aaf;
   margin-top: 8px;
 }
-#player .area-effect .panel-effect .lyrics p.current {
+#player .panels .panel-effect .lyrics p.current {
   color: #fff;
+}
+#player .panels .panel-lyrics {
+  width: 100vw;
+  height: 100%;
+  text-align: center;
+  line-height: 2;
+  overflow: hidden;
+}
+#player .panels .panel-lyrics .container {
+  transition: all 0.3s;
+  transform: translateY(0);
+}
+#player .panels .panel-lyrics .container p {
+  font-size: 14px;
+  color: #868aaf;
+}
+#player .panels .panel-lyrics .container p.current {
+  color: #fff;
+}
+#player #footer {
+  height: 160px;
 }
 #player #footer .buttons {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
 }
 #player #footer .buttons svg {
   width: 24px;
@@ -128,6 +170,21 @@
   height: 16px;
   background: url(/progress.798a5c76.svg) 0 0 no-repeat;
   background-size: contain;
+}
+#player #footer .actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding: 0 20px;
+}
+#player #footer .actions svg {
+  width: 28px;
+  height: 28px;
+}
+#player #footer .actions svg.btn-play-pause {
+  width: 50px;
+  height: 50px;
 }
 
 @keyframes rotate {
