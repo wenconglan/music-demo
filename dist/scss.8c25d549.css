@@ -154,7 +154,7 @@
   margin: 0 10px;
 }
 #player #footer .bar-area .progress {
-  width: 30%;
+  width: 0%;
   height: 100%;
   border-radius: 2px;
   background: #db3baa;

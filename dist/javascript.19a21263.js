@@ -291,6 +291,8 @@ function () {
     this.songList = [];
     this.currentIndex = 0;
     this.audio = new Audio();
+    this.lyricsArr = [];
+    this.lyricIndex = -1;
     this.start();
     this.bind();
   }
@@ -336,6 +338,12 @@ function () {
         self.playNextSong();
       };
 
+      this.audio.ontimeupdate = function () {
+        console.log(parseInt(self.audio.currentTime * 1000));
+        self.locateLyric();
+        self.setProgerssBar();
+      };
+
       var swiper = new _swiper.default(this.$('.panels'));
       swiper.on('swipLeft', function () {
         this.classList.remove('panel1');
@@ -349,31 +357,25 @@ function () {
   }, {
     key: "renderSong",
     value: function renderSong() {
+      var _this3 = this;
+
       var songObj = this.songList[this.currentIndex];
       this.$('.header h1').innerText = songObj.title;
       this.$('.header p').innerText = songObj.author + '-' + songObj.albumn;
       this.audio.src = songObj.url;
+
+      this.audio.onloadedmetadata = function () {
+        return _this3.$('.time-end').innerText = _this3.formateTime(_this3.audio.duration);
+      };
+
       this.loadLyrics();
     }
   }, {
     key: "playPrevSong",
     value: function playPrevSong() {
-      var _this3 = this;
-
-      this.currentIndex = (this.songList.length + this.currentIndex - 1) % this.songList.length;
-      this.audio.src = this.songList[this.currentIndex].url;
-      this.renderSong();
-
-      this.audio.oncanplaythrough = function () {
-        return _this3.audio.play();
-      };
-    }
-  }, {
-    key: "playNextSong",
-    value: function playNextSong() {
       var _this4 = this;
 
-      this.currentIndex = (this.songList.length + this.currentIndex + 1) % this.songList.length;
+      this.currentIndex = (this.songList.length + this.currentIndex - 1) % this.songList.length;
       this.audio.src = this.songList[this.currentIndex].url;
       this.renderSong();
 
@@ -382,13 +384,80 @@ function () {
       };
     }
   }, {
+    key: "playNextSong",
+    value: function playNextSong() {
+      var _this5 = this;
+
+      this.currentIndex = (this.songList.length + this.currentIndex + 1) % this.songList.length;
+      this.audio.src = this.songList[this.currentIndex].url;
+      this.renderSong();
+
+      this.audio.oncanplaythrough = function () {
+        return _this5.audio.play();
+      };
+    }
+  }, {
     key: "loadLyrics",
     value: function loadLyrics() {
+      var _this6 = this;
+
       fetch(this.songList[this.currentIndex].lyric).then(function (res) {
         return res.json();
       }).then(function (data) {
         console.log(data.lrc.lyric);
+
+        _this6.setLyrics(data.lrc.lyric);
+
+        window.lyrics = data.lrc.lyric;
       });
+    }
+  }, {
+    key: "locateLyric",
+    value: function locateLyric() {
+      var currentTime = this.audio.currentTime * 1000;
+      var nextLineTime = this.lyricsArr[this.lyricIndex + 1][0];
+
+      if (currentTime > nextLineTime && this.lyricIndex < this.lyricsArr.length - 1) {
+        this.lyricIndex++;
+        var node = this.$('[data-time="' + this.lyricsArr[this.lyricIndex][0] + '"]');
+        if (node) this.setLineToCenter(node);
+        this.$$('.panel-effect .lyrics p')[0].innerText = this.lyricsArr[this.lyricIndex][1];
+        this.$$('.panel-effect .lyrics p')[1].innerText = this.lyricsArr[this.lyricIndex + 1] ? this.lyricsArr[this.lyricIndex + 1][1] : '';
+      }
+    }
+  }, {
+    key: "setLyrics",
+    value: function setLyrics(lyrics) {
+      this.lyricIndex = 0;
+      var fragment = document.createDocumentFragment();
+      var lyricsArr = [];
+      this.lyricsArr = lyricsArr;
+      lyrics.split(/\n/).filter(function (str) {
+        return str.match(/\[.+?\]/);
+      }).forEach(function (line) {
+        var str = line.replace(/\[.+?\]/g, '');
+        line.match(/\[.+?\]/g).forEach(function (t) {
+          t = t.replace(/[\[\]]/g, '');
+          var milliseconds = parseInt(t.slice(0, 2)) * 60 * 1000 + parseInt(t.slice(3, 5)) * 1000 + parseInt(t.slice(6));
+          lyricsArr.push([milliseconds, str]);
+        });
+      });
+      lyricsArr.filter(function (line) {
+        return line[1].trim() !== '';
+      }).sort(function (v1, v2) {
+        if (v1[0] > v2[0]) {
+          return 1;
+        } else {
+          return -1;
+        }
+      }).forEach(function (line) {
+        var node = document.createElement('p');
+        node.setAttribute('data-time', line[0]);
+        node.innerText = line[1];
+        fragment.appendChild(node);
+      });
+      this.$('.panel-lyrics .container').innerHTML = '';
+      this.$('.panel-lyrics .container').appendChild(fragment);
     }
   }, {
     key: "setLineToCenter",
@@ -400,6 +469,33 @@ function () {
         return node.classList.remove('current');
       });
       node.classList.add('current');
+    }
+  }, {
+    key: "setProgerssBar",
+    value: function setProgerssBar() {
+      var percent = this.audio.currentTime * 100 / this.audio.duration + '%';
+      console.log(percent);
+      this.$('.bar .progress').style.width = percent;
+      this.$('.time-start').innerText = this.formateTime(this.audio.currentTime);
+      console.log(this.$('.bar .progress').style.width);
+    }
+  }, {
+    key: "formateTime",
+    value: function formateTime(secondsTotal) {
+      var minutes = parseInt(secondsTotal / 60);
+      minutes = minutes >= 10 ? '' + minutes : '0' + minutes;
+      var seconds = parseInt(secondsTotal % 60);
+      seconds = seconds >= 10 ? '' + seconds : '0' + seconds;
+      return minutes + ':' + seconds;
+    }
+  }, {
+    key: "playSong",
+    value: function playSong() {
+      var _this7 = this;
+
+      this.audio.oncanplaythrough = function () {
+        return _this7.audio.play();
+      };
     }
   }]);
 
