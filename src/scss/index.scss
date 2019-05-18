@@ -11,14 +11,11 @@ $color2-darker: darken($color2, 30%);
   padding: 0;
   box-sizing: border-box;
 }
-
 #player {
   height: 100vh;
   background-color: $backgroundColor;
-  overflow: hidden;
-  position: fixed;
-  top:0;
-  left:0;
+  width: 100vw;
+ overflow: hidden;
   .header {
     text-align: center;
     height: 110px;
