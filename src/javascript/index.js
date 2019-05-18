@@ -87,7 +87,7 @@ class Player {
     .then(data=>{
       console.log(data.lrc.lyric)
       this.setLyrics(data.lrc.lyric)
-      window.lyrics = data.lrc.lyric
+      //window.lyrics = data.lrc.lyric
     })
   }
 
@@ -102,15 +102,16 @@ class Player {
       this.$$('.panel-effect .lyrics p')[1].innerText = this.lyricsArr[this.lyricIndex+1] ? this.lyricsArr[this.lyricIndex+1][1] : ''
     }
   }
-
 setLyrics(lyrics){
+  console.log('lyrics1')
+  console.log(lyrics)
   this.lyricIndex = 0
     let fragment = document.createDocumentFragment()
     let lyricsArr  = []
     this.lyricsArr = lyricsArr
     lyrics.split(/\n/)
-      .filter(str => str.match(/\[.+?\]/))
-      .forEach(line => {
+    .filter(str => str.match(/\[.+?\]/))
+    .forEach(line => {
         let str = line.replace(/\[.+?\]/g, '')
         line.match(/\[.+?\]/g).forEach(t=>{
           t = t.replace(/[\[\]]/g,'')

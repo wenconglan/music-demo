@@ -212,11 +212,11 @@ var Swiper = function Swiper(node) {
     clock = setTimeout(function () {
       newX = e.changedTouches[0].pageX;
 
-      if (newX - initX > 20) {
+      if (newX - initX > 30) {
         eventHub['swipRight'].forEach(function (fn) {
           return fn.bind(root)();
         });
-      } else if (initX - newX > 20) {
+      } else if (initX - newX > 30) {
         eventHub['swipLeft'].forEach(function (fn) {
           return fn.bind(root)();
         });
@@ -406,9 +406,8 @@ function () {
       }).then(function (data) {
         console.log(data.lrc.lyric);
 
-        _this6.setLyrics(data.lrc.lyric);
+        _this6.setLyrics(data.lrc.lyric); //window.lyrics = data.lrc.lyric
 
-        window.lyrics = data.lrc.lyric;
       });
     }
   }, {
@@ -428,6 +427,8 @@ function () {
   }, {
     key: "setLyrics",
     value: function setLyrics(lyrics) {
+      console.log('lyrics1');
+      console.log(lyrics);
       this.lyricIndex = 0;
       var fragment = document.createDocumentFragment();
       var lyricsArr = [];
@@ -531,7 +532,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64771" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53827" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
