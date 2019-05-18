@@ -16,6 +16,9 @@ $color2-darker: darken($color2, 30%);
   height: 100vh;
   background-color: $backgroundColor;
   overflow: hidden;
+  position: fixed;
+  top:0;
+  left:0;
   .header {
     text-align: center;
     height: 110px;
