@@ -72,9 +72,9 @@ class Swiper {
       if(clock) clearInterval(clock)
       clock = setTimeout(()=>{
         newX = e.changedTouches[0].pageX
-        if(newX - initX > 30) {
+        if(newX - initX > 35) {
           eventHub['swipRight'].forEach(fn=>fn.bind(root)())
-        } else if(initX - newX > 30) {
+        } else if(initX - newX > 35) {
           eventHub['swipLeft'].forEach(fn=>fn.bind(root)())
         }  
       }, 100)
