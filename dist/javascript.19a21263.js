@@ -212,11 +212,11 @@ var Swiper = function Swiper(node) {
     clock = setTimeout(function () {
       newX = e.changedTouches[0].pageX;
 
-      if (newX - initX > 20) {
+      if (newX - initX > 35) {
         eventHub['swipRight'].forEach(function (fn) {
           return fn.bind(root)();
         });
-      } else if (initX - newX > 30) {
+      } else if (initX - newX > 35) {
         eventHub['swipLeft'].forEach(function (fn) {
           return fn.bind(root)();
         });
@@ -532,7 +532,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50938" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57976" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
